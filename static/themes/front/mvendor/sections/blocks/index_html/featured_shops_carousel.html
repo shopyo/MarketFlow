@@ -1,0 +1,46 @@
+{% from get_active_front_theme()+'/macros/index_page.html' import featured_store with context %}
+
+<div id="carouselExampleSlidesOnly" class="carousel_featured_shops slide" data-ride="carousel">
+    <div class="carousel-inner">
+        {%for store in featured_stores%}
+        <div class="carousel-item {{'active' if loop.index == 1}}">
+            {{featured_store(store_url=store.get_store_page_url(), name=store.name, logo=store.get_logo_url())}}
+        </div>
+        {%endfor%}
+    </div>
+</div>
+
+<div id="carouselExampleSlidesOnly2" class="carousel_featured_shops slide" data-ride="carousel">
+    <div class="carousel-inner">
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $.ajax({
+                url: 'http://localhost:5000/store/api/get/stores',
+                type: 'GET',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                    
+                    if(data.status == "success"){
+                        shops = data.result;
+                        $('#carouselExampleSlidesOnly2.carousel-inner').html("")
+                        for (var i = 0; i < shops.length; i++){
+                            let newShopCard = '<div class="carousel-item active">'+ shops[i].name+'</div>';
+                            console.log(newShopCard);
+                            $('#carouselExampleSlidesOnly2 .carousel-inner').append(newShopCard);
+                        }
+
+                    } else {
+
+                    }
+                }
+        });
+
+        $('.carousel_featured_shops').carousel()
+
+    });
+</script>

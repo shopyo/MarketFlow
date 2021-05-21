@@ -1,0 +1,55 @@
+{% extends "base/module_base.html" %}
+{% set active_page ='products' %}
+{% block pagehead %}
+<title></title>
+{% endblock %}
+{% block sidebar %}
+{%include 'shopman/blocks/sidebar.html'%}
+{%endblock%}
+{% block content %}
+<br>
+<a href="{{ url_for('shopman.product_add_choose_category_dashboard', store_id=store_id) }}"><button class="btn btn-primary">add product</button></a>
+<br><br>
+<div class="card">
+    <div class="card-body">
+
+        <br>
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>barcode</th>
+                    <th>name</th>
+                    <th>in stock</th>
+                    <th>status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {%for p in products%}
+                <tr>
+                    <td>{{p.barcode}}</td>
+                    <td>{{p.name}}</td>
+                    <td>{{p.in_stock}}</td>
+                    <td>
+                        {%if p.status == 'pending'%}
+                        pending
+                        {%elif p.status == 'not_submitted'%}
+                        must re-submit
+                        {%elif p.status == 'approved'%}
+                        approved
+                        {%endif%}
+                    </td>
+                    <td style="">
+                        <a href="{{url_for('shopman.product_view_dashboard', store_id=store_id, product_id=p.id)}}" class="btn btn-primary" role="button">
+                            view
+                        </a>
+                    </td>
+                </tr>
+                {%endfor%}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "base/module_base.html" %}
+{% set active_page ='products' %}
+{% block pagehead %}
+<title></title>
+{% endblock %}
+{% block sidebar %}
+{%include 'marketman/blocks/sidebar.html'%}
+{%endblock%}
+{% block content %}
+<br>
+
+<div class="card">
+    <div class="card-body">
+
+        <br>
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>barcode</th>
+                    <th>name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {%for p in unapproved_products%}
+                <tr>
+                    <td>{{p.barcode}}</td>
+                    <td>{{p.name}}</td>
+                    <td style="">
+                        <a href="{{ url_for('marketman.view_unapproved_product', product_id=p.id, rtpage=page) }}" class="btn btn-primary" role="button">
+                            view
+                        </a>
+                    </td>
+                </tr>
+                {%endfor%}
+
+            </tbody>
+        </table>
+
+        <ul class="pagination">
+            {%set pagination_endpoint = 'marketman.list_unapproved_product'%}
+            {% if page != 1 %}
+            <li class="page-item"><a href="{{ url_for(pagination_endpoint, page=page-1) }}" class="page-link">
+                    <<</a> </li> {% endif %} {%for x in range(1, total_pages+1)%} {%if x==page%} <li class="page-item active">
+                        <a href="{{ url_for(pagination_endpoint, page=loop.index) }}" class="page-link"> {{page}} <span class="sr-only">(current)</span></a>
+            </li>
+            {%else%}
+            <li class="page-item"><a href="{{ url_for(pagination_endpoint, page=loop.index) }}" class="page-link"> {{x}} </a></li>
+            {%endif%}
+            {%endfor%}
+            {% if page != total_pages %}
+            <li class="page-item"><a href="{{ url_for(pagination_endpoint, page=page+1) }}" class="page-link">>></a></li>
+            {% endif %}
+        </ul>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{
+        "display_string": "Store",
+        "module_name":"store",
+        "type": "hide",
+        "fa-icon": "fa fa-store",
+        "url_prefix": "/store",
+        "dashboard": "/dashboard",
+        "author": {
+            "name":"",
+            "website":"",
+            "mail":""
+        }
+}

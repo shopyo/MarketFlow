@@ -1,0 +1,54 @@
+{% macro featured_store(store_url='', name="", logo="") -%}
+	<div class="card border-0">
+        <div class="card-body">
+          <div class="row">
+
+          	<div class="col-sm-12 col-xs-12">
+          		<div style="padding: 10px;" class="text-center">
+          			<div style="background-image: url('{{logo}}'); background-size: cover; border-radius: 50%; width: 100px; height: 100px; border: 1px solid gray; display: inline-block;">
+          			
+          		</div>
+          		<div>
+          			{{name}}
+          		</div>
+          		<a href="{{store_url}}">
+          			<button class="btn btn-primary" style="width: 100%">
+          				shop
+          			</button>
+          		</a>
+          		</div>
+          		
+          	</div>
+          </div>
+        </div>
+      </div>
+{%- endmacro %}
+
+
+
+{% macro product_component(product, next=None) -%}
+<a href="{{ url_for('shop.product', product_id=product.id) }}">
+    <div class="card product-card" style="margin-bottom: 10px;">
+        <!-- Card image -->
+        <div style="background-image: url('{{product.get_one_image_url()}}'); background-size: cover;" class="product-img">
+        </div>
+        <!-- Card content -->
+        <div class="card-body text-center">
+            <!-- Title -->
+            <p class="card-title"><a>{{ product.name }}</a></p>
+            <!-- Text -->
+            <p class="card-text product-price">Rs {{product.selling_price}}</p>
+            <!-- Button -->
+            <p>
+              <a href="{{ product.product_store.get_store_page_url() }}">
+                <img src="{{ product.product_store.get_logo_url() }}" class="product-store-img">
+                  <span class="product-store-name">{{ product.product_store.name }}</span>
+              </a>
+            </p>
+            {%if next%}
+              <a href="{{ url_for('shop.cart_add', product_id=product.id, next=next) }}" class="btn btn-primary"><i class="fa fa-shopping-basket"></i></a>
+            {%endif%}
+        </div>
+    </div>
+</a>
+{%- endmacro %}

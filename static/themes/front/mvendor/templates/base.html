@@ -1,0 +1,206 @@
+{%set active_page = 'index.html'%}
+<!-- public facing landing page -->
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="keywords" content="htmlcss bootstrap menu, navbar, mega menu examples" />
+	<meta name="description" content="Promoting LOCAL" />  
+	<meta charset="utf-8">
+    {% include get_active_front_theme()+'/sections/resources.html'%}
+    {%block head%}
+    {%endblock%}
+    <style type="text/css">
+    body {
+        background-color: #fff;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .card-1 {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+    }
+
+    .card-1:hover {
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    }
+
+    .above-nav {
+        background-color: white !important;
+    }
+
+    .navbar {
+        font-size: 15px;
+        z-index: 1000;
+    }
+
+    .section-header {
+        background-color: #fff !important;
+    }
+
+    .navbar {
+        /*box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);*/
+    }
+    </style>
+    <style type="text/css">
+    	.product-card{
+    		width: 200px;
+    	}
+    	.product-card .card-body{
+    		margin: none;
+    	}
+    	.product-store-img{
+    		width: 30px; height: 30px;
+    	}
+    	.product-card .card-title{
+    		margin: 0;
+    	}
+    	.product-card .card-text{
+    		margin: 0;
+    	}
+    	.product-card .product-price{
+    		color: green;
+    	}
+    	.product-img{
+    		height: 200px;
+    	}
+
+    	@media (max-width: 576px) {
+			.product-card{
+			width: 130px;
+			margin: 5px;
+	    	}
+	    	.product-card .card-body{
+	    		margin: none;
+	    	}
+	    	.product-img{
+	    		height: 100px;
+	    	}
+	    	.product-store-img{
+	    		width: 20px; height: 20px;
+	    	}
+	    	.product-card .card-title{
+	    		margin: 0;
+	    		font-size: 15px;
+	    		height: 50px;
+	    	}
+	    	.product-card .card-text{
+	    		margin: 0;
+	    		font-size: 15px;
+	    	}
+	    	.product-card .product-price{
+	    		color: green;
+	    		font-size: 15px;
+	    	}
+	    	.product-container .row{
+	    		margin: 0 !important;
+	    		padding: 0 !important;
+	    	}
+	    	.product-col{
+	    		margin: 0 !important;
+	    		padding: 0 !important;
+	    	}
+	    	.product-row{
+	    		margin: 0 !important;
+	    		padding: 0 !important;
+	    	}
+	    	.product-container{
+	    		padding: 0 !important;
+	    		margin: 0 !important;
+	    	}
+	    	.product-store-name{
+	    		font-size: 10px;
+	    	}
+    	}
+    </style>
+
+    <!--Dropdowns-->
+    <style type="text/css">
+    @media (min-width: 992px) {
+        .dropdown-menu .dropdown-toggle:after {
+            border-top: .3em solid transparent;
+            border-right: 0;
+            border-bottom: .3em solid transparent;
+            border-left: .3em solid;
+        }
+
+        .dropdown-menu .dropdown-menu {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .dropdown-menu li {
+            position: relative;
+        }
+
+        .nav-item .submenu {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: -7px;
+        }
+
+        .nav-item .submenu-left {
+            right: 100%;
+            left: auto;
+        }
+
+        .dropdown-menu>li:hover {
+            background-color: #f1f1f1
+        }
+
+        .dropdown-menu>li:hover>.submenu {
+            display: block;
+        }
+    }
+    </style>
+    <script type="text/javascript">
+    $(document).on('click', '.dropdown-menu', function(e) {
+        e.stopPropagation();
+    });
+
+    // make it as accordion for smaller screens
+    if ($(window).width() < 992) {
+        $('.dropdown-menu a').click(function(e) {
+            e.preventDefault();
+            if ($(this).next('.submenu').length) {
+                $(this).next('.submenu').toggle();
+            }
+            $('.dropdown').on('hide.bs.dropdown', function() {
+                $(this).find('.submenu').hide();
+            })
+        });
+    }
+    </script>
+
+</head>
+
+<body>
+    {% include 'base/blocks/flashed_messages.html' %}
+    <div style="border: none; padding: none; margin: none;" class="  container">
+        <header class="section-header text-white d-none d-sm-block">
+            
+            <form class="form-inline" style="display: inline-block; margin-top: 20px">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <img style="height: 80px; border-radius: 5px" src="{{ url_for('static', filename='marketflow.png') }}" class="float-right">
+        </header>
+        {% include get_active_front_theme()+'/sections/nav.html'%}
+        <hr>
+    </div>
+    <!--<div style="height: 150px;">
+	
+</div>-->
+    <!-- ========================= SECTION CONTENT ========================= -->
+    <div class="container text-center">
+        <section class="section-content">
+            {%block content%}
+            {%endblock%}
+        </section>
+        {% include get_active_front_theme()+'/sections/footer.html'%}
+    </div><!-- container //  -->
+</body>
+
+</html>

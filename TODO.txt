@@ -1,0 +1,9 @@
+- [ ] register store upload form
+- [ ] store sign up form
+- [ ] admin dashboard - approve
+- [ ] store login form
+- [ ] store info page
+- [ ] vendor products
+- [ ] order processing
+- [ ] customer login
+- [ ] customer dashboard

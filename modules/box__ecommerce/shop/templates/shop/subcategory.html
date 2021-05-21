@@ -1,0 +1,208 @@
+{%set active_page = 'shop.html'%}
+{% from get_active_front_theme()+"/macros/index_page.html" import product_component with context %}
+{% extends get_active_front_theme()+'/templates/base.html' %}
+{% block head %}
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        /* On document ready */
+        $(function() {
+            // initialize the bootstrap slider
+
+            var minPrice = localStorage.getItem("minPrice") || 0;
+            var maxPrice = localStorage.getItem("maxPrice") || 1000;
+            var currPage = localStorage.getItem("currPage") || 1;
+            var prevSubCat = localStorage.getItem("prevSubCat") || "";
+
+            if (prevSubCat != "{{ subcategory_name }}") {
+                console.log(prevSubCat)
+                currPage = 1;
+                localStorage.setItem("prevSubCat", "{{ subcategory_name }}")
+                localStorage.setItem("currPage", 1);
+            }
+
+            $( "#slider-range" ).slider({
+                range: true,
+                min: 0,
+                max: 1000,
+                values: [minPrice, maxPrice],
+                slide: function( event, ui ) {
+                    $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+                }
+            });
+
+            // the initial value and position
+            $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+            " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+
+            getProducts(currPage);
+
+            // On filter button press
+            $( "#filter-btn" ).click( function() {
+                let minPrice = $("#slider-range").slider("values", 0);
+                let maxPrice = $("#slider-range").slider("values", 1);
+                console.log("filter button pressed");
+                console.log("min-price: " + minPrice);
+                console.log("max-price: " + maxPrice);
+                localStorage.setItem("minPrice", minPrice);
+                localStorage.setItem("maxPrice", maxPrice)
+
+                getProducts(1);
+
+            });
+
+            $( "#pagination-container" ).on( "click", "li", function( event ) {
+                event.preventDefault();
+                let page = $( this ).data("page");
+                getProducts(page);
+                localStorage.setItem("currPage", page);
+            });
+
+            function getProducts(page) {
+
+                let minPrice = $("#slider-range").slider("values", 0);
+                let maxPrice = $("#slider-range").slider("values", 1);
+                let url = "{{ url_for('shop.get_subcategory_products', subcategory_name=subcategory_name) }}/page/"
+                    + page +"?min-price=" + minPrice + "&max-price=" + maxPrice;
+
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(data){
+
+                        if(data.status == "success"){
+
+                            $('.product-row').empty();
+                            $('#pagination-container').empty();
+
+                            console.log(data.result);
+                            let productsArr = data.result.products;
+                            let page = data.result.page;
+                            let totPages = data.result.total_pages;
+                            let subcategoryName = data.result.subcategory_name;
+                            console.log(productsArr)
+                            console.log(page)
+
+                            if (productsArr.length == 0) {
+                                let alert = '\
+                                <div class="col"> \
+                                    <div class="alert alert-warning" role="alert"> \
+                                        No products to display \
+                                    </div> \
+                                </div>'
+                                $('.product-row').append(alert);
+                                return;
+                            }
+
+                            for (let i = 0; i < productsArr.length; i++){
+
+                                let img_url = "{{ url_for('resource.product_image', filename='default') }}";
+                                let productCard = ' \
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-sx-4 product-col"> \
+                                        <a href="{{ url_for("shop.product", product_id="p_id") }}">'.replace("p_id", productsArr[i].id) + '\
+                                            <div class="card prod" style="margin-bottom: 10px;"> \
+                                                <!-- Card image --> \
+                                                <div style="background-image: url('+ img_url + '); background-size: cover; height: 200px;">\
+                                                </div>\
+                                                <!-- Card content -->\
+                                                <div class="card-body text-center">\
+                                                    <!-- Title -->\
+                                                    <h4 class="card-title"><a>' + productsArr[i].name + '</a></h4>\
+                                                    <!-- Text --> \
+                                                    <p class="card-text">Rs' + productsArr[i].selling_price + '</p> \
+                                                    <!-- Button --> \
+                                                </div> \
+                                            </div> \
+                                        </a> \
+                                    </div>';
+                                $('.product-row').append(productCard);
+                            }
+
+                            console.log("string 1".replace("1", "2"))
+
+                            if (page != 1){
+                                let pageItem = '\
+                                    <li class="page-item" data-page="'+ (page-1) +'"> \
+                                        <a href=""class="page-link">&#8810;</a> \
+                                    </li>';
+                                $('#pagination-container').append(pageItem);
+                            }
+
+                            for (var i = 1; i < totPages + 1; i++){
+
+                                let pageItem = ''
+                                // update the pagination
+                                if (i == page){
+                                    pageItem = '\
+                                    <li class="page-item active"  data-page="'+ i +'"> \
+                                        <a href=""class="page-link">' + i + '<span class="sr-only">(current)</span></a> \
+                                    </li>';
+                                }else{
+                                    pageItem = '\
+                                    <li class="page-item" data-page="'+ i +'"> \
+                                        <a href=""class="page-link">' + i + '</a> \
+                                    </li>';
+                                }
+
+                                $('#pagination-container').append(pageItem);
+                            }
+
+                            if (page != totPages){
+                                let pageItem = '\
+                                    <li class="page-item" data-page="'+ (page+1) +'"> \
+                                        <a href=""class="page-link">&#8811;</a> \
+                                    </li>';
+                                $('#pagination-container').append(pageItem);
+                            }
+
+                        } else {
+
+                        }
+                    }
+                });
+            }
+        });
+  </script>
+
+{%endblock%}
+{%block content%}
+
+    <div class="shop-spacer-1">
+    </div>
+    <nav aria-label="breadcrumb ">
+      <ol class="breadcrumb bg-white">
+        <li class="breadcrumb-item"><a href="{{ url_for('www.index') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('shop.index') }}">Shop</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('shop.category', category_name=subcategory.category.name) }}">{{ subcategory.category.name }}</a></li>
+        <li class="breadcrumb-item active"> {{ subcategory.name }} </li>
+      </ol>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                {%include 'shop/blocks/accordion.html'%}
+                <p>
+                    <label for="amount">Price range:</label>
+                    <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="slider-range"></div>
+                <br>
+                <button id="filter-btn" class="btn btn-primary">filter</button>
+            </div>
+            <div class="col-md-8">
+
+                <div class="container-fluid product-container">
+                    <div class="row product-row">
+                    </div>
+                </div>
+                <nav>
+                    <ul id="pagination-container" class="pagination">
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+{%endblock%}

@@ -1,0 +1,171 @@
+{% extends "base/module_base.html" %}
+
+{% set active_page = info['display_string']+' dashboard' %}
+
+{% block pagehead %}
+<title></title>
+<style>
+.store-info-input{
+	width: 400px !important;
+}
+</style>
+{% endblock %}
+
+
+
+
+{% block sidebar %}
+  {%include info['module_name']+'/blocks/sidebar.html'%}
+{%endblock%}
+
+
+
+
+{% block content %}
+<br>
+<div>
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-responsive table-striped">
+            	<tbody>
+            		<tr>
+            			<td>
+            				Store Name
+            			</td>
+            			<td>
+            				<form action="{{ url_for('shopman.store_update_name', store_id=store_id) }}" method="POST">
+	            				<div class="input-group mb-3">
+								  <input name="store_name" type="text" autocomplete="off"  class="store-info-input form-control" value="{{store.name}}"  aria-describedby="basic-addon2">
+								<input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+								  <div class="input-group-append">
+								    <button class="btn btn-info" id="basic-addon2">save</button>
+								  </div>
+								</div>
+            				</form>
+            				
+            			</td>
+            		</tr>
+            		<tr>
+            			<td>
+            				Store slug
+            			</td>
+            			<td>
+            				<form action="{{url_for('shopman.store_update_slug', store_id=store_id)}}" method="POST">
+	            				<div class="input-group mb-3">
+								  <input name="store_slug" type="text" autocomplete="off"  class="store-info-input form-control" value="{{store.slug}}"  aria-describedby="basic-addon2">
+								<input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+								  <div class="input-group-append">
+								    <button class="btn btn-info" id="basic-addon2">save</button>
+								  </div>
+								</div>
+            				</form>
+            				
+            			</td>
+            		</tr>
+            		<tr>
+            			<td>
+            				Store location
+            			</td>
+            			<td>
+            				<form action="{{url_for('shopman.store_update_location', store_id=store_id)}}" method="POST">
+	            				<div class="input-group mb-3">
+								  <input name="store_location" type="text" autocomplete="off"  class="store-info-input form-control" value="{{store.location}}" aria-describedby="basic-addon2">
+								<input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+								  <div class="input-group-append">
+								    <button class="btn btn-info" id="basic-addon2">save</button>
+								  </div>
+								</div>
+            				</form>
+            				
+            			</td>
+            		</tr>
+            		<tr>
+            			<td>
+            				Owner address
+            			</td>
+            			<td>
+            				<form action="{{url_for('shopman.store_update_owner_address', store_id=store_id)}}" method="POST">
+	            				<div class="input-group mb-3">
+								  <input name="store_owner_address" type="text" autocomplete="off"  class="store-info-input form-control" value="{{store.owner_address}}" aria-describedby="basic-addon2">
+								<input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+								  <div class="input-group-append">
+								    <button class="btn btn-info" id="basic-addon2">save</button>
+								  </div>
+								</div>
+            				</form>
+            				
+            			</td>
+            		</tr>
+            		<tr>
+            			<td>
+            				Phone
+            			</td>
+            			<td>
+            				<form action="{{url_for('shopman.store_update_owner_phone', store_id=store_id)}}" method="POST">
+	            				<div class="input-group mb-3">
+								  <input name="store_owner_phone" type="text" autocomplete="off"  class="store-info-input form-control" value="{{store.owner_phone}}" aria-describedby="basic-addon2">
+								<input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+								  <div class="input-group-append">
+								    <button class="btn btn-info" id="basic-addon2">save</button>
+								  </div>
+								</div>
+            				</form>
+            				
+            			</td>
+            		</tr>
+            		<tr>
+            			<td>
+            				Store logo
+            			</td>
+            			<td>
+                                    <a href="{{store.get_logo_url()}}" target="_blank">
+                                          <img src="{{store.get_logo_url()}}" style="width:50px; height: 50px; border-radius: 5px">
+                                    </a>
+            				
+
+                              <form action="{{url_for('shopman.store_update_store_logo', store_id=store_id)}}" method="POST" enctype="multipart/form-data">
+                              <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+
+                             
+                                          <div class="input-group mb-3">
+                              <input class="form-control" type="file" name="storelogo" autocomplete="off">
+                                                
+                                                  <div class="input-group-append">
+                                                    <button class="btn btn-info" id="basic-addon2">save</button>
+                                                  </div>
+                                                </div>
+                                    </form>
+                              </td>
+            		</tr>
+            		<tr>
+                              <td>
+                                    Store banner
+                              </td>
+                              <td>
+                                    <a href="{{store.get_banner_url()}}" target="_blank">
+                                          <img src="{{store.get_banner_url()}}" style="width:100px; height: 50px; border-radius: 5px">
+                                    </a>
+                                    
+
+                              <form action="{{url_for('shopman.store_update_store_banner', store_id=store_id)}}" method="POST" enctype="multipart/form-data">
+                              <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+
+                             
+                                          <div class="input-group mb-3">
+                              <input class="form-control" type="file" name="storebanner" autocomplete="off">
+                                                
+                                                  <div class="input-group-append">
+                                                    <button class="btn btn-info" id="basic-addon2">save</button>
+                                                  </div>
+                                                </div>
+                                    </form>
+                              </td>
+                        </tr>
+            	</tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

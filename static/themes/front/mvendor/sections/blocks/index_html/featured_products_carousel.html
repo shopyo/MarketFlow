@@ -1,0 +1,25 @@
+<div  class="featured_products slide" data-ride="carousel">
+  <div class="carousel-inner">
+  	{%for product in featured_products%}
+  	<div class="carousel-item {{'active' if loop.index==1}}">
+  		<div class="row">
+	  		<div class="col-xs-8 col-sm-8">
+	  			<div  >
+			      	<div style="background-image: url('{{ product.get_one_image_url() }}'); background-size: cover; height: 250px">
+			      		
+			      	</div>
+			    </div>
+	  		</div>
+	  		<div class="col-xs-4 col-sm-4">
+	  			<p> {{ product.name }} </p>
+	  			<p> Rs {{ product.price }} </p>
+	  			<p><a href="{{ product.get_buy_page_url() }}" class="btn btn-primary">buy</a> </p>
+	  		</div>
+	  	</div>
+  	</div>
+    {%endfor%}
+  </div>
+</div>
+<script type="text/javascript">
+  $('.featured_products').carousel()
+</script>

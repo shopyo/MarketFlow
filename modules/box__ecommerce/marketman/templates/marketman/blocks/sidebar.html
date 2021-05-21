@@ -1,0 +1,43 @@
+
+
+{{
+sidebar_item(
+'Dashboard', 
+icon=info['fa-icon'], 
+url=url_for('marketman.dashboard')
+)
+}}
+
+
+{{
+sidebar_item(
+'Approve Stores', 
+icon='fa fa-check', 
+url=url_for('marketman.list_unapproved_stores')
+)
+}}
+
+{{
+sidebar_item(
+'Approve Products', 
+icon='fa fa-check', 
+url=url_for('marketman.list_unapproved_product')
+)
+}}
+
+
+{{
+sidebar_item(
+'Delivery', 
+icon='fa fa-paper-plane', 
+url=url_for('shopman.delivery')
+)
+}}
+
+{{
+sidebar_item(
+'Payment', 
+icon='fa fa-money-check-alt', 
+url=url_for('shopman.payment')
+)
+}}

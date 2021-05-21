@@ -1,0 +1,35 @@
+{%set active_page = 'sell'%}
+
+{% extends get_active_front_theme()+'/templates/base.html' %}
+
+
+{%block head%}
+<title>Register</title>
+<style type="text/css">
+
+</style>
+{%endblock%}
+
+
+{%block content%}
+
+<div class="card tm-card">
+	<div class="card-body">
+		<div>
+			REGISTER
+			<br>
+			<form action="{{ url_for('store.register_check') }}" method="POST" enctype="multipart/form-data">
+				{%for field in register_form%}
+					{%if field.id not in ['csrf_token', 'submit']%}
+						{{field.label}}
+						<br>
+					{%endif%}
+					{{field}}
+					<br>
+				{%endfor%}
+			</form>
+			
+		</div>
+	</div>
+</div>
+{%endblock%}

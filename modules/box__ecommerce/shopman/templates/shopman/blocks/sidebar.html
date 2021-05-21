@@ -1,0 +1,32 @@
+ {{
+sidebar_item(
+'Dashboard', 
+icon=info['fa-icon'], 
+url=url_for('shopman.dashboard', store_id=store_id)
+)
+}}
+
+
+{{
+sidebar_item(
+'Orders', 
+icon='fa fa-clipboard-list', 
+url=url_for(info['module_name']+'.order', store_id=store_id)
+)
+}}
+
+{{
+sidebar_item(
+'Products', 
+icon='fa fa-tshirt', 
+url=url_for(info['module_name']+'.product_list_dashboard', store_id=store_id)
+)
+}}
+
+{{
+sidebar_item(
+'Store info', 
+icon='fa fa-info-circle', 
+url=url_for(info['module_name']+'.store_info', store_id=store_id)
+)
+}}

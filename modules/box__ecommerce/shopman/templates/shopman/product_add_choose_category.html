@@ -1,0 +1,37 @@
+{% extends "base/module_base.html" %}
+{% set active_page ='products' %}
+{% block pagehead %}
+<title>add product</title>
+{% endblock %}
+{% block sidebar %}
+{%include 'shopman/blocks/sidebar.html'%}
+{%endblock%}
+{% block content %}
+<br>
+<!--
+<script type="text/javascript">
+$(function() {
+    // pos
+    //$.getJSON( "http://localhost:5000/product/erlang", function( data ) {console.log(data[0]['barcode']);})
+    $('#barcode').on('input', function() {
+        $.getJSON("/prods/check/" + $("#barcode").val(), function(data) {
+            $("#check").html("<i class='fa fa-list-alt'></i>");
+            if (data['exists'] === true) {
+                $("#check").html("<i style='color:red;' class='fas fa-exclamation-triangle'></i>");
+            }
+        })
+    });
+});
+</script>
+-->
+<div class="card">
+    <div class="card-body">
+        <h3>Add product: choose category</h3>
+        {%for category in categories%}
+            <a href="{{ url_for('shopman.product_add_choose_subcategory_dashboard', category_id=category.id, store_id=store_id) }}" 
+                style="border-bottom: 2px solid black">{{ category.name }}</a>
+                <br>
+        {%endfor%}
+    </div>
+</div>
+{% endblock %}

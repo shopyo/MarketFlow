@@ -1,0 +1,333 @@
+{%set active_page = 'home'%}
+
+{% extends get_active_front_theme()+'/templates/base.html' %}
+
+{%block head%}
+<title>Promote LOCAL</title>
+<style type="text/css">
+	.tm-about-us{
+		width: 200px;
+		height: 100px;
+	}
+	.latest-product-overflow {
+		height: 350px;
+
+		margin-right: 10px;
+		margin-left: 10px;
+		padding-top: 15px;
+    overflow-x: scroll;
+    overflow-x: hidden;
+}
+::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+
+.icon-square{
+	width: 60px; height: 60px; padding-top: 20px; font-size: 20px
+}
+.benefits-title{
+	font-size: 20px;
+	margin-bottom: 10px;
+}
+
+.shop_card{
+        box-shadow: 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.20);
+}
+.shop_btn{
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.20) !important;
+}
+.shop_underline_pink{
+    border-bottom: 2px solid green;
+    border-radius: 1px;
+}
+
+.rslides {
+  position: relative;
+  list-style: none;
+  overflow: hidden;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  }
+
+.rslides li {
+  -webkit-backface-visibility: hidden;
+  position: absolute;
+  display: none;
+  width: 100%;
+  left: 0;
+  top: 0;
+  }
+
+.rslides li:first-child {
+  position: relative;
+  display: block;
+  float: left;
+  }
+
+.rslides img {
+  display: block;
+  height: auto;
+  float: left;
+  width: 100%;
+  border: 0;
+  }
+
+.work--wrap{
+
+	height: 250px;
+
+
+}
+.work--icon{
+
+	font-size: 100px;
+	height: 150px;
+	width: 150px;
+	border-radius: 50%;
+	background-color: yellow;
+	margin-bottom: 10px;
+
+
+}
+.work--text{
+	font-style: italic;
+	font-weight: bold;
+}
+
+
+
+
+@media (max-width: 576px) { 
+.work--wrap{
+
+	height: 100px;
+
+
+}
+.work--icon{
+
+	font-size: 40px;
+	height: 70px;
+	width: 70px;
+	border-radius: 50%;
+	background-color: yellow;
+	margin-bottom: 10px;
+
+
+}
+.work--text{
+	font-style: italic;
+	font-weight: bold;
+	font-size: 10px;
+}
+
+.workrow{
+	padding-bottom: 50px;
+}
+
+}
+
+.banner_image{
+    max-height: 300px;
+	background-size: cover;
+}
+</style>
+
+<script src="{{ url_for('static', filename='js/responsive_slides.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.11/jquery.lazy.min.js" integrity="sha512-eviLb3jW7+OaVLz5N3B5F0hpluwkLb8wTXHOTy0CyNaZM5IlShxX1nEbODak/C0k9UdsrWjqIBKOFY0ELCCArw==" crossorigin="anonymous"></script>
+<script>
+  $(function() {
+    $(".rslides").responsiveSlides({
+    	auto: true,
+    	speed: 500,            // Integer: Speed of the transition, in milliseconds
+  		timeout: 4000,
+    });
+    $('.banner_image').Lazy();
+  });
+</script>
+{%endblock%}
+
+
+{%block content%}
+
+
+<ul class="rslides">
+	{%for i in range(14)%}
+  <li><img src="{{ url_for('static', filename='default/banners/banner_nocolor.png') }}" class="banner_image" src="" 
+  	style="background-image: url('{{ url_for('static', filename='default/banners/banner_{}.jpg'.format(loop.index)) }}');
+  		background-size: cover; background-position: center center;" alt=""></li>
+  	{%endfor%}
+</ul>
+<!--
+<ul class="rslides">
+  <li><img class="banner_image" src="{{ url_for('static', filename='default/banners/banner_1.jpg') }}" alt=""></li>
+  <li><img class="banner_image" src="{{ url_for('static', filename='default/banners/banner_2.jpg') }}" alt=""></li>
+  <li><img class="banner_image" src="{{ url_for('static', filename='default/banners/banner_3.jpg') }}" alt=""></li>
+  <li><img class="banner_image" src="{{ url_for('static', filename='default/banners/banner_4.jpg') }}" alt=""></li>
+  <li><img class="banner_image" src="{{ url_for('static', filename='default/banners/banner_5.jpg') }}" alt=""></li>
+  <li><img class="banner_image" src="{{ url_for('static', filename='default/banners/banner_6.jpg') }}" alt=""></li>
+  <li><img class="banner_image" src="{{ url_for('static', filename='default/banners/banner_7.jpg') }}" alt=""></li>
+  <li><img class="banner_image" src="{{ url_for('static', filename='default/banners/banner_8.jpg') }}" alt=""></li>
+  <li><img class="banner_image" src="{{ url_for('static', filename='default/banners/banner_9.jpg') }}" alt=""></li>
+  <li><img class="banner_image" src="{{ url_for('static', filename='default/banners/banner_10.jpg') }}" alt=""></li>
+  <li><img class="banner_image" src="{{ url_for('static', filename='default/banners/banner_11.jpg') }}" alt=""></li>
+  <li><img class="banner_image" src="{{ url_for('static', filename='default/banners/banner_12.jpg') }}" alt=""></li>
+  <li><img class="banner_image" src="{{ url_for('static', filename='default/banners/banner_13.jpg') }}" alt=""></li>
+  <li><img class="banner_image" src="{{ url_for('static', filename='default/banners/banner_14.jpg') }}" alt=""></li>
+</ul>
+-->
+
+
+
+<div class="mt-5">
+	<h1 style="font-size: 45px"><b>How It Works?</b></h1>
+</div>
+<div class="container-fluid">
+	<div class="row workrow" style="margin-bottom: 20px;">
+		<div class="col">
+			<div class="work--wrap p-4 m-1 text-center">
+				<div class="work--icon text-right">
+					<i class="fa fa-cart-arrow-down"></i>
+				</div>
+				<div class="work--text text-center">
+					Add items to cart
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="work--wrap p-4 m-1 text-center">
+				<div class="work--icon text-right">
+					<i class="fa fa-check-double"></i>
+				</div>
+				<div class="work--text text-center">
+					Checkout
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="work--wrap p-4 m-1 text-center">
+				<div class="work--icon text-right">
+					<i class="fa fa-money-check"></i>
+				</div>
+				<div class="work--text text-center">
+					Choose Payment Method
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="work--wrap p-4 m-1 text-center">
+				<div class="work--icon text-right">
+					<i class="fa fa-truck-loading"></i>
+				</div>
+				<div class="work--text text-center">
+					Delivered At Your Door
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			
+		</div>
+		<div class="col">
+			
+		</div>
+	</div>
+</div>
+
+
+
+
+<!--
+<div class="row" >
+	<div class="col-xs-8 col-sm-8">
+		<div class="card tm-card">
+			<div class="card-body">
+				<b class=""><i style="color: #f1ac47" class="fa fa-burn"></i> Recent Products</b>
+				<br><br>
+				<div class="latest-product-overflow" >
+					<div style="">
+						{%set target_prds = get_products()[::-1]%}
+						{%set target_num=5%}
+						{%if len(target_prds) >= 5%}
+
+						{%else%}
+							{%set target_num=len(target_prds)%}
+						{%endif%}
+						{%for i in range(target_num)%}
+
+							{%set product = target_prds[i]%}
+
+
+							<div class="card tm-card-product card-1">
+								
+											
+								<div class="card-body">
+									{%set store_slug = product.product_store.slug%}
+									<a href="{{ product.product_store.get_store_page_url() }}">
+										<img class="store-logo" src="{{ product.product_store.get_logo_url() }}">
+									</a>
+									
+									<img class="product-picture" src="{{product.get_one_image_url()}}">
+									<p class="product-name">
+										{{product.name}}
+									</p>
+									<p class="product-name">
+										Rs {{product.selling_price}}
+									</p>
+									<hr style="margin: 0px">
+									<div class="product-action-bar">
+										
+										<a href="{{ url_for('shop.product', product_id=product.id) }}">
+											<button class="btn btn-primary">buy</button>
+										</a>
+										
+									</div>
+								</div>
+
+							</div>
+						{%endfor%}
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-4 col-sm-4">
+		<div class="card tm-card">
+			<div class="card-body">
+				<b><i style="color:#ff4747;" class="fa fa-lightbulb"></i> Featured Shops</b>
+				{% include get_active_front_theme()+'/sections/blocks/index_html/featured_shops_carousel.html'%}
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<div class="row" >
+	<div class="col-xs-6 col-sm-6">
+		<div class="card tm-card">
+			<div class="card-body">
+				...
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-6 col-sm-6">
+		<div class="card tm-card">
+			<div class="card-body">
+				<b><i style="color: #107340" class="fa fa-award"></i> Featured Products</b><br><br>
+
+				{% include get_active_front_theme()+'/sections/blocks/index_html/featured_products_carousel.html'%}
+			</div>
+		</div>
+	</div>
+</div>
+-->
+
+
+
+{%endblock%}

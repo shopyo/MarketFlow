@@ -1,0 +1,86 @@
+<link rel="icon" href="{{url_for('static', filename='marketflow.png')}}">
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">-->
+<link rel="stylesheet" href="/static/bootstrap.min.css">
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+<link rel="stylesheet" href="/static/fontawesome/css/all.css">
+<!--<link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}">-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="/static/jquery_3.2.1.min.js"></script>
+<script src="{{ url_for('static', filename ='bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename ='js/python.js') }}"></script>
+<!--<script type="text/javascript" src="{{ url_for('static', filename = 'logic.js') }}"></script>-->
+<link rel="stylesheet" href="{{get_active_front_theme_styles_url()}}">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<!--
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+crossorigin="anonymous"></script>
+
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+-->
+<script type="text/javascript">
+/// some script
+$(function() {
+    'use strict'
+
+    $("[data-trigger]").on("click", function() {
+        var trigger_id = $(this).attr('data-trigger');
+        $(trigger_id).toggleClass("show");
+        $('body').toggleClass("offcanvas-active");
+    });
+
+    // close if press ESC button 
+    $(document).on('keydown', function(event) {
+        if (event.keyCode === 27) {
+            $(".navbar-collapse").removeClass("show");
+            $("body").removeClass("overlay-active");
+        }
+    });
+
+    // close button 
+    $(".btn-close").click(function(e) {
+        $(".navbar-collapse").removeClass("show");
+        $("body").removeClass("offcanvas-active");
+    });
+
+
+})
+</script>
+<style type="text/css">
+body.offcanvas-active {
+    overflow: hidden;
+}
+
+.offcanvas-header {
+    display: none;
+}
+
+@media (max-width: 992px) {
+    .offcanvas-header {
+        display: block;
+    }
+
+    .navbar-collapse {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 100%;
+        width: 100%;
+        padding-right: 1rem;
+        padding-left: 1rem;
+        overflow-y: auto;
+        visibility: hidden;
+        background-color: white;
+        transition: visibility .2s ease-in-out, transform .2s ease-in-out;
+    }
+
+    .navbar-collapse.show {
+        visibility: visible;
+        transform: translateX(-100%);
+    }
+}
+</style>

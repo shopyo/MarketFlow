@@ -1,0 +1,38 @@
+
+{% extends "base/module_base.html" %}
+{% set active_page = info['display_string']+' dashboard' %}
+{% block pagehead %}
+<title></title>
+<style>
+</style>
+{% endblock %}
+{% block sidebar %}
+{% include info['module_name']+'/blocks/sidebar.html' %}
+{% endblock %}
+{% block content %}
+<br>
+
+<div class="card">
+    <div class="card-body">
+    	<table class="table table-responsive">
+    		<thead>
+    			<tr>
+    				<th>Store Name</th>
+    				<th>Owner Name</th>
+    				<th></th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			{%for store in unapproved_stores%}
+    				<tr>
+    					<td>{{store.name}}</td>
+    					<td>{{store.store_owner.first_name}} {{store.store_owner.last_name}}</td>
+    					<td><a href="{{ url_for('marketman.view_unapproved_store', store_id=store.id) }}">
+                            <button class="btn btn-primary">view</button></a></td>
+    				</tr>
+    			{%endfor%}
+    		</tbody>
+    	</table>
+    </div>
+ </div>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% from get_active_front_theme()+"/macros/index_page.html" import product_component with context %}
+
+{%set active_page = 'shop.html'%}
+{% extends get_active_front_theme()+'/templates/base.html' %}
+{% block head %}
+    <style type="text/css">
+
+    </style>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+    $( "#slider-range" ).slider({
+      range: true,
+      min: 0,
+      max: 500,
+      values: [ 75, 300 ],
+      slide: function( event, ui ) {
+        $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+      }
+    });
+    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+      " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+
+  } );
+  </script>
+
+{% endblock %}
+{% block content %}
+    <div class="shop-spacer-1">
+    </div>
+    <nav aria-label="breadcrumb ">
+      <ol class="breadcrumb bg-white">
+        <li class="breadcrumb-item"><a href="{{ url_for('www.index') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('shop.index') }}">Shop</a></li>
+        <li class="breadcrumb-item active">{{ current_category.name }}</a></li>
+        
+      </ol>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                {%include 'shop/blocks/accordion.html'%}
+                <p>
+                    <label for="amount">Price range:</label>
+                    <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <div id="slider-range"></div>
+                <br>
+                <button id="filter_btn" class="btn btn-primary">filter</button>
+            </div>
+            <div class="col-md-8">
+
+                <div class="container-fluid product-container">
+                    <div class="row product-row">
+                        {%for product in products%}
+                            <div class="col product-col">
+                                {%set next_url = url_for('shop.category', category_name=current_category.name, page=page)%}
+                                {{product_component(product, next=next_url)}}
+                            </div>
+                        <!-- Card -->
+                        {%endfor%}
+                    </div>
+                </div>
+
+                
+                <nav>
+                    <ul class="pagination">
+                        {% if page != 1 %}
+                        <li class="page-item"><a href="{{ url_for('shop.category', 
+                category_name=current_category_name, page=page-1) }}" class="page-link">
+                                <<</a> </li> {% endif %} {%for x in range(1, total_pages+1)%} {%if x==page%} <li class="page-item active">
+                                    <a href="{{ url_for('shop.category', 
+                category_name=current_category_name, page=loop.index) }}" class="page-link"> {{page}} <span class="sr-only">(current)</span></a>
+                        </li>
+                        {%else%}
+                        <li class="page-item"><a href="{{ url_for('shop.category', 
+                category_name=current_category_name, page=loop.index) }}" class="page-link"> {{x}} </a></li>
+                        {%endif%}
+                        {%endfor%}
+                        {% if page != total_pages %}
+                        <li class="page-item"><a href="{{ url_for('shop.category', 
+                category_name=current_category_name, page=page+1) }}" class="page-link">>></a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+{%endblock%}

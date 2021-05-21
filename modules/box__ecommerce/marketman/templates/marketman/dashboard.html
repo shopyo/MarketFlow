@@ -1,0 +1,90 @@
+
+{% extends "base/module_base.html" %}
+{% set active_page = info['display_string']+' dashboard' %}
+{% block pagehead %}
+<title></title>
+<style>
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+{% endblock %}
+{% block sidebar %}
+{% include info['module_name']+'/blocks/sidebar.html' %}
+{% endblock %}
+{% block content %}
+<br>
+
+<div class="row">
+	<div class="col-5 col-sm-5 col-xs-5" >
+		<div class="card">
+		    <div class="card-body">
+		    	<div class="row">
+		    		<div class="col text-center">
+		    			<h1>{{num_products}}</h1>
+		    			<p>Products</p>
+		    		</div>
+		    		<div class="col text-center">
+		    			<h1>{{num_stores}}</h1>
+		    			<p>Stores</p>
+		    		</div>
+		    	</div>
+		    </div>
+		 </div>
+	</div>
+	<div class="col-5 col-sm-5 col-xs-5" >
+		<div class="card">
+		    <div class="card-body">
+		    	<h3>Orders</h3>
+		    	<canvas id="orders_graph"></canvas>
+		    </div>
+		 </div>
+	</div>
+</div>
+
+
+<script>
+var ctx = document.getElementById('orders_graph').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Pending', 'Processing', 'Shipped', 'Cancelled', 'Refunded'],
+        datasets: [{
+            label: '# of Orders',
+            data: [
+              {{charts['orders']['pending']}}, 
+              {{charts['orders']['processing']}}, 
+              {{charts['orders']['shipped']}},
+              {{charts['orders']['cancelled']}}, 
+              {{charts['orders']['refunded']}}, 
+              ],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+
+
+{% endblock %}

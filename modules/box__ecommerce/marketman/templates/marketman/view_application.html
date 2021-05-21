@@ -1,0 +1,98 @@
+
+{% extends "base/module_base.html" %}
+{% set active_page = info['display_string']+' dashboard' %}
+{% block pagehead %}
+<title></title>
+<style>
+    .application-image{
+        width: 50px; 
+        height:50px;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %}
+{% block sidebar %}
+{% include info['module_name']+'/blocks/sidebar.html' %}
+{% endblock %}
+{% block content %}
+<br>
+<a href="{{ url_for('marketman.list_unapproved_stores') }}">
+    <button class="btn btn-info">
+        <i class="fa fa-arrow-left"></i>
+    </button>
+</a>
+
+<br><br>
+<div class="card">
+    <div class="card-body">
+    	<div>
+         <a href="{{ url_for('marketman.approve_store', store_id=store.id) }}">
+             <button class="btn btn-success">approve</button>
+         </a>   
+        </div>
+        <br>
+        <div>
+            <table class="table table-responsive table-striped"> 
+                <tbody>
+                    <tr>
+                        <td><b>Store name</b></td>
+                        <td>{{store.name}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Slug</b></td>
+                        <td>{{store.slug}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>BRN</b></td>
+                        <td>{{store.brn}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>BRN File</b></td>
+                        <td><a href="{{store.get_brn_url()}}" target="_blank"><img src="{{store.get_brn_url()}}" class="application-image"></a></td>
+                    </tr>
+                    <tr>
+                        <td><b>Location</b></td>
+                        <td>{{store.location}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Owner first name</b></td>
+                        <td>{{store.store_owner.first_name}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Owner last name name</b></td>
+                        <td>{{store.store_owner.last_name}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Owner first name</b></td>
+                        <td>{{store.store_owner.first_name}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Owner email</b></td>
+                        <td>{{store.store_owner.email}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Owner NID</b></td>
+                        <td>{{store.owner_id_card}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>ID card file File</b></td>
+                        <td><a href="{{store.get_id_card_url()}}" target="_blank"><img src="{{store.get_id_card_url()}}" class="application-image"></a></td>
+                    </tr>
+                    <tr>
+                        <td><b>Owner address</b></td>
+                        <td>{{store.owner_address}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Owner address File</b></td>
+                        <td><a href="{{store.get_address_url()}}" target="_blank"><img src="{{store.get_address_url()}}" class="application-image"></a></td>
+                    </tr>
+                    <tr>
+                        <td><b>Owner phone</b></td>
+                        <td>{{store.owner_phone}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+ </div>
+{% endblock %}

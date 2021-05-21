@@ -1,0 +1,111 @@
+{%set active_page = 'home'%}
+
+{% extends get_active_front_theme()+'/templates/base.html' %}
+
+
+{%block head%}
+<title> {{store.name}} </title>
+<style type="text/css">
+
+</style>
+{%endblock%}
+
+
+
+
+{%block content%}
+<div class="row">
+	<div class="col-sm-12 col-xs-12">
+		
+		 <div class="card tm-card">
+			<div class="card-body">
+				<div style="background-image: url('{{store.get_banner_url()}}');height: 200px; border-top-right-radius: 5px; border-top-left-radius: 5px; background-color: orange">
+				</div>
+				<br>
+				<div class="d-flex justify-content-between">
+					  <div class="text-left">
+						 <h3>{{store.name}}</h3> <hr>
+						 <i class="fa fa-map-marker-alt"></i> {{store.location}} <br>
+						 <i class="fa fa-phone"></i> {{store.owner_phone}}
+					  </div>
+					  <div>
+					  	<div>
+					  		<img src="{{store.get_logo_url()}}" style="width: 100px; height: 100px; border-radius: 50%; border: 5px solid green; background-color: orange;">
+					  	</div><br>
+
+						 {%if user_is_marketplace_owner() %}
+						 	{%if not store.is_featured%}
+						 	<p><a href="{{ url_for('store.toggle_featured', store_id=store.id) }}" class="btn btn-primary">
+								set featured
+							</a></p>
+							{%else%}
+							<p><a href="{{ url_for('store.toggle_featured', store_id=store.id) }}" class="btn btn-primary">
+								remove featured
+							</a></p>
+							{%endif%}
+						 {%endif%}
+					  </div>
+				 </div>
+				 
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<br>
+
+ <div class="card tm-card">
+	<div class="card-body">
+<div class="row">
+                    {%for product in store.products%}
+                    {%if product.status=='approved'%}
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-sx-4">
+                        <a href="{{ url_for('shop.product', product_id=product.id) }}">
+                            <div class="card prod" style="margin-bottom: 10px;">
+                                {%set filename_ = ''%}
+                                {%if product.resources%}
+                                {%set filename_ = product.resources[0].filename%}
+                                {%set img_url = url_for('resource.product_image', filename=filename_) %}
+                                {%else%}
+                                {%set img_url = url_for('resource.product_image', filename='default') %}
+                                {%endif%}
+                                <!-- Card image -->
+                                <div style="background-image: url('{{img_url}}'); background-size: cover; height: 200px;">
+                                </div>
+                                <!-- Card content -->
+                                <div class="card-body text-center">
+                                    <!-- Title -->
+                                    <h4 class="card-title"><a>{{ product.name }}</a></h4>
+                                    <!-- Text -->
+                                    <p class="card-text">Rs {{product.selling_price}}</p>
+                                    <!-- Button -->
+                                </div>
+                                <a href="{{ url_for('shop.product', product_id=product.id) }}" class="btn btn-primary">
+                                	view
+                            	</a>
+                                {%if user_is_marketplace_owner()%}
+                                
+                                <span style="height: 5px"></span>
+                                	{%if product.is_featured%}
+	                                <a href="{{ url_for('store.toggle_product_featured', product_id=product.id, rt=0) }}" class="btn btn-primary">
+	                                	remove featured
+	                                </a>
+	                                {%elif not product.is_featured%}
+	                                <a href="{{ url_for('store.toggle_product_featured', product_id=product.id, rt=0) }}" class="btn btn-primary">
+	                                	feature product
+	                                </a>
+	                                {%endif%}
+                                {%endif%}
+                                <span style="height: 5px"></span>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Card -->
+                    {%endif%}
+                    {%endfor%}
+                </div>
+	</div>
+</div>
+
+{%endblock%}

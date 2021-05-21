@@ -1,0 +1,13 @@
+{
+        "display_string": "Manage Marketplace",
+        "module_name":"marketman",
+        "type": "show",
+        "fa-icon": "fa fa-store",
+        "url_prefix": "/marketman",
+        "dashboard": "/dashboard",
+        "author": {
+            "name":"",
+            "website":"",
+            "mail":""
+        }
+}

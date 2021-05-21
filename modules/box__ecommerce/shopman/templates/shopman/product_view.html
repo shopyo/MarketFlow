@@ -1,0 +1,160 @@
+{% extends "base/module_base.html" %}
+{% set active_page ='products' %}
+{% block pagehead %}
+<title>products</title>
+<style type="text/css">
+.carousel-control-prev,
+.carousel-control-next {
+    height: 100px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    /*height: 50px;*/
+    /*width: 100px;*/
+    /*border-radius: 50%;*/
+    /*border: 1px solid black;*/
+    background-image: none !important;
+    background: none !important;
+    /*font-size: 55px;*/
+    /*color: red;*/
+}
+
+.carousel-control-next-icon:after {
+    content: '>';
+    font-size: 55px;
+    color: red;
+}
+
+.carousel-control-prev-icon:after {
+    content: '<';
+    font-size: 55px;
+    color: red;
+}
+.yo-carousel-product-image{
+    border-radius: 5px;
+}
+</style>
+{% endblock %}
+{% block sidebar %}
+{%include 'shopman/blocks/sidebar.html'%}
+{%endblock%}
+{% block content %}
+<br>
+<a href="{{ url_for('shopman.product_list_dashboard', store_id=store_id) }}">
+    <button class="btn btn-info">
+        <i class="fa fa-arrow-left"></i>
+    </button>
+</a>
+<br><br>
+<div class="card">
+    <div class="card-body">
+        <a href="{{url_for('shopman.product_edit_dashboard', product_id=product.id, store_id=store_id)}}" class="btn btn-warning" role="button">
+            <i class="fas fa-pencil-alt"></i>
+        </a>
+        <a href="{{url_for('shopman.product_delete', barcode=product.barcode, store_id=store_id)}}" class="btn btn-danger" role="button">
+            <i class="fas fa-trash-alt"></i>
+        </a>
+        {%if product.status == 'pending'%}
+            <a href="" class="btn btn-success disabled"><i>pending approval ...</i></a>
+        {%elif product.status == 'not_submitted'%}
+            <a href="{{ url_for(
+            'shopman.set_product_status', 
+            store_id=store_id, 
+            product_id=product.id, 
+            status='pending', 
+            return_to='1') }}" 
+            class="btn btn-success">submit for approval</a>
+        {%elif product.status == 'approved'%}
+            <a href="" class="btn btn-success disabled"><i>already approved</i></a>
+        {%endif%}
+        <br>
+    <br>
+        <table class="table table-responsive table-striped">
+
+            <tbody>
+                <tr>
+                    <td><b>Barcode</b></td>
+                    <td>{{product.barcode}}</td>
+                </tr>
+                <tr>
+                    <td><b>Name</b></td>
+                    <td>{{product.name}}</td>
+                </tr>
+                <tr>
+                    <td><b>Description</b></td>
+                    <td>{{product.description | safe}}</td>
+                </tr>
+                <tr>
+                    <td><b>Date</b></td>
+                    <td>{{product.date}}</td>
+                </tr>
+                <tr>
+                    <td><b>In Stock</b></td>
+                    <td>{{product.in_stock}}</td>
+                </tr>
+                <tr>
+                    <td><b>Cost Price</b></td>
+                    <td>{{product.price}}</td>
+                </tr>
+                <tr>
+                    <td><b>Selling Price</b></td>
+                    <td>{{product.selling_price}}</td>
+                </tr>
+                <tr>
+                    <td><b>On Sale</b></td>
+                    <td>{{'Yes' if product.is_onsale else 'No'}}</td>
+                </tr>
+                <tr>
+                    <td><b>Featured</b></td>
+                    <td>{{'Yes' if product.is_featured else 'No'}}</td>
+                </tr>
+            </tbody>
+        </table>
+        {%if len(product.resources) != 0%}
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    {%for resource in product.resources%}
+                    {%if resource.type == 'image'%}
+                    <div class="carousel-item {{'active' if loop.index == 1 else ''}}">
+                        <img class="yo-carousel-product-image d-block" width=300 src="{{url_for('resource.product_image', filename=resource.filename)}}" alt="---">
+                        <a style="margin-top: 10px" class="btn btn-danger" href="{{url_for('product.image_delete', filename=resource.filename, barcode=product.barcode)}}">delete</a>
+                    </div>
+                    {%endif%}
+                    {%endfor%}
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+                <br>
+            </div>
+            {%endif%}
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-body">
+    <h3>Moderation Messages</h3>
+    <table class="table table-responsive">
+        <tbody>
+            {%for message in product.moderation_messages[::-1]%}
+                <tr>
+                    <td>
+                        {{message.get_std_formatted_time()}}
+                    </td>
+                    <td>
+                        {{message.text}}
+                    </td>
+                </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+    
+    </div>
+</div>
+{% endblock %}

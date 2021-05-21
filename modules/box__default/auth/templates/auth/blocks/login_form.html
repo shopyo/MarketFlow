@@ -1,0 +1,33 @@
+
+{%set auth_login_form = get_auth_login_form()%}
+<p>{{auth_login_form.email.label}}</p>
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fa fa-id-card"></i></span>
+    </div>
+    
+    {{ auth_login_form.email() }}
+    {% if auth_login_form.email.errors %}
+        <ul class="errors">
+            {% for error in auth_login_form.user_id.errors %}
+	            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+<p>{{auth_login_form.password.label}}</p>
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fa fa-key"></i></i></span>
+    </div>
+    {{ auth_login_form.password() }}
+    {% if auth_login_form.password.errors %}
+        <ul class="errors">
+            {% for error in auth_login_form.password.errors %}
+	            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+<input type="submit" name="" value="submit" class="btn btn-info">

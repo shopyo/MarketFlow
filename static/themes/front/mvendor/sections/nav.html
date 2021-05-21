@@ -1,0 +1,140 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white ">
+    <a class="navbar-brand" href="#">
+    </a>
+    <button class="navbar-toggler" type="button" data-trigger="#main_nav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse" id="main_nav">
+        <div class="offcanvas-header mt-3">
+            <button class="btn btn-outline-danger btn-close float-right"> &times Close </button>
+            <h5 class="py-2 text-black">Main navbar</h5>
+        </div>
+        <ul class="navbar-nav">
+            <li class="nav-item active"> <a class="nav-link" href="{{ url_for('shop.homepage') }}"> Home </a> </li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('shop.index') }}"> Shop </a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('store.register') }}"> Become a vendor </a></li>
+            <li class="nav-item"><a class="nav-link" href="#"> Help </a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Categories </a>
+                <ul class="dropdown-menu">
+                    {%for category in get_categories()%}
+                    <li>
+                        <a class="dropdown-item" href="{{ url_for('shop.category', category_name=category.name) }}"> {{category.name}} &raquo </a>
+                        <ul class="submenu dropdown-menu">
+                            {%for subcategory in category.subcategories%}
+                            <li><a class="dropdown-item" href="{{ url_for('shop.subcategory', subcategory_name=subcategory.name) }}"> {{ subcategory.name }}</a></li>
+                            {%endfor%}
+                        </ul>
+                    </li>
+                    {%endfor%}
+                </ul>
+            </li>
+        </ul>
+        <!--
+<ul class="navbar-nav ml-auto">
+    <li class="nav-item"><a class="nav-link" href="#"> Menu item </a></li>
+    <li class="nav-item"><a class="nav-link" href="#"> Menu item </a></li>
+    <li class="nav-item dropdown">
+        <a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown"> Dropdown rightn </a>
+        <ul class="dropdown-menu dropdown-menu-right">
+          <li><a class="dropdown-item" href="#"> Submenu item 1</a></li>
+          <li><a class="dropdown-item" href="#"> Submenu item 2n </a></li>
+        </ul>
+    </li>
+</ul>-->
+        <ul class="navbar-nav ml-auto">
+            <!-- Links -->
+            <li class="nav-item">
+                {%if not current_user.is_authenticated%}
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">LOGIN</a>
+                {%else%}
+                {%if current_user.is_admin%}
+                <a class="nav-link" href="{{ url_for('dashboard.index') }}">ACCOUNT</a>
+                {%elif current_user.is_store_owner%}
+                <a class="nav-link" href="{{ url_for('store.dashboard', store_id=current_user.store.id) }}">ACCOUNT</a>
+                {%elif current_user.is_customer%}
+                <a class="nav-link" href="{{ url_for('customer.dashboard') }}">ACCOUNT</a>
+                {%endif%}
+                {%endif%}
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('shop.cart') }}">CART {{cart_items}}/{{get_currency_symbol()}} {{cart_total_price}}</a>
+            </li>
+        </ul>
+    </div> <!-- navbar-collapse.// -->
+</nav>
+<!-- Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Auth</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="signup-tab" data-toggle="tab" href="#signup" role="tab" aria-controls="signup" aria-selected="false">SignUp</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <br>
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="{{url_for('auth.login')}}" method="post">
+                                    {%include 'auth/blocks/login_form.html'%}
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
+                        <div class="card-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    {%set register_customer_form = get_auth_register_customer_form()%}
+                                    <form action="{{ url_for('customer.register') }}" method="post">
+                                        <p>{{ register_customer_form.email.label }}</p>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                            </div>
+                                            {{ register_customer_form.email() }}
+                                        </div>
+                                        <p>{{ register_customer_form.password.label }}</p>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                            </div>
+                                            {{ register_customer_form.password() }}
+                                        </div>
+                                        <p>{{ register_customer_form.reconfirm_password.label }}</p>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                            </div>
+                                            {{ register_customer_form.reconfirm_password() }}
+                                        </div>
+                                        <input type="submit" name="" class="btn btn-info">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+        </div>
+    </div>
+</div>
