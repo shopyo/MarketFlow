@@ -28,3 +28,7 @@ login: admin@domain.com | pass
 - Cart
 - Anonymous buying
 - Vendor registration
+
+## Support
+
+[Discord](https://discord.gg/k37Ef6w)
